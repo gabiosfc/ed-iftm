@@ -15,11 +15,11 @@ struct Lista {
         head = tail = NULL;
     }
 
-    bool vazia() {
+    bool vazia() { // O(1)
         return (head == NULL);
     }
 
-    void inserirInicio(int v) {
+    void inserirInicio(int v) { // O(1)
         No *novo = new No();
         novo -> value = v;
         if(vazia()) {
@@ -32,7 +32,7 @@ struct Lista {
         }
     }
 
-    void inserirFinal(int v) {
+    void inserirFinal(int v) { // O(1)
         No *novo = new No();
         novo -> value = v;
         if(vazia()) {
@@ -46,7 +46,7 @@ struct Lista {
         }
     }
 
-    int tamanho(){
+    /*int tamanho(){ // O(n)
         int t = 0;
         No *aux = head;
         while(aux != NULL) {
@@ -55,8 +55,13 @@ struct Lista {
         }
         return t;
     }
+   */
 
-    void removerInicio() {
+    int tamanho() { // O(1)
+        return n;
+    }
+
+    void removerInicio() { // O(1)
         if (!vazia()) {
             if (tamanho() == 1) {
                 No *aux = head;
@@ -72,7 +77,7 @@ struct Lista {
         }
     }
 
-    void removerFinal() {
+    void removerFinal() { // O(n)
         if (!vazia()) {
             if (tamanho() == 1) {
                 No *aux = head;
@@ -93,7 +98,7 @@ struct Lista {
         }
     }
 
-    void imprimir() {
+    void imprimir() { // O(n)
 
         /*for(No *aux = head; aux != NULL; aux = aux -> next){
             printf("%d\n", aux -> value);
