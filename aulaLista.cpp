@@ -3,12 +3,14 @@
 struct No {
     int value;
     No *next;
+
 };
 
-//lista é uma estrtura de dados dinâmica do tipo sequencial
+//lista Ã© uma estrtura de dados dinÃ¢mica do tipo sequencial
 struct Lista {
     No *head, *tail;
-    //Criar método construtor que apontará a cabeça e a cauda para NULL
+    int n;
+    //Criar mÃ©todo construtor que apontarÃ¡ a cabeÃ§a e a cauda para NULL
     Lista() {
         head = tail = NULL;
     }
@@ -44,6 +46,53 @@ struct Lista {
         }
     }
 
+    int tamanho(){
+        int t = 0;
+        No *aux = head;
+        while(aux != NULL) {
+            t++;
+            aux = aux -> next;
+        }
+        return t;
+    }
+
+    void removerInicio() {
+        if (!vazia()) {
+            if (tamanho() == 1) {
+                No *aux = head;
+                head = NULL;
+                tail = NULL;
+                delete(aux);
+            } else {
+                No *aux = head;
+                head = head -> next;
+                delete(aux);
+            }
+            n--;
+        }
+    }
+
+    void removerFinal() {
+        if (!vazia()) {
+            if (tamanho() == 1) {
+                No *aux = head;
+                head = NULL;
+                tail = NULL;
+                delete(aux);
+            } else {
+                No *penultimo = head;
+                while (penultimo -> next != tail) {
+                    penultimo = penultimo -> next;
+                }
+                delete(tail);
+                tail = penultimo;
+                tail -> next;
+                tail -> next = NULL;
+            }
+            n--;
+        }
+    }
+
     void imprimir() {
 
         /*for(No *aux = head; aux != NULL; aux = aux -> next){
@@ -58,16 +107,6 @@ struct Lista {
         }
     }
 
-    //Qual a complexidade da função de calcular o tamanho?
-    int tamanho(){
-        int t = 0;
-        No *aux = head;
-        while(aux != NULL) {
-            t++;
-            aux = axu -> next;
-        }
-        return t;
-    }
 };
 
 
@@ -85,6 +124,12 @@ int main() {
     l.inserirFinal(4);
     l.inserirFinal(6);
     l.inserirFinal(8);
+
+    l.removerInicio();
+    l.removerInicio();
+
+    l.removerFinal();
+    l.removerFinal();
 
     l.imprimir();
 
