@@ -107,21 +107,21 @@ struct Lista {
     }
 
     //exercicio 1
-    void reduzirLista (int n) {
-        int n;
-        if (n < tamanho()) {
+    void reduzirLista(int v) {
+        int v;
+        if (v < tamanho()) {
             for (int i = 0; i < tamanho(); i++) {
                 removerFinal();
             }
         } else {
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < v; i++) {
                 removerFinal();
             }
         }
     }
 
     //exercicio 2 
-    void removerSegundoElemento (){
+    void removerSegundoElemento(){
         if (!vazia()) {
             if (tamanho() <= 1) {
                 break;
@@ -135,22 +135,22 @@ struct Lista {
     }
 
     //exercicio 3
-    void inserirTamanhoFinal () {
+    void inserirTamanhoFinal() {
         int v = tamanho();
         inserirFinal(v);
     }
 
     //exercico 4
-    void inserirNCrescente (int n) {
-        int n, aux = 1;
-        for (int i = 0; i < n; i++){
+    void inserirNCrescente(int v) {
+        int v, aux = 1;
+        for (int i = 0; i < v; i++){
             inserirFinal(aux);
             aux++;
         }
     }
 
     //exercicio 5 
-   void inserirPenultimo () {
+   void inserirPenultimo(int v) {
         No *novo = new No();
         novo->valor = v;
         if (tamanho() <= 1) {
@@ -180,8 +180,18 @@ int main() {
     l.removerInicio();
     l.removerInicio();
     l.imprimir();
-
-
-
+    
+    l.reduzirLista(30);
+    l.imprimir();
+    l.removerSegundoElemento();
+    l.imprimir();
+    inserirTamanhoFinal();
+    l.imprimir();
+    inserirNCrescente(27);
+    l.imprimir();
+    inserirPenultimo(20);
+    l.imprimir();
+    
+ 
     return 0;
 }
