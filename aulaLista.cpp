@@ -107,40 +107,33 @@ struct Lista {
         }
     }
     
-
-    //exercicio 1
+    //1. Criar um método que recebe um número N e remove os N últimos elementos da lista. Caso o tamanho da lista seja menor que N, esvaziar a lista.
     void reduzirLista(int v) {
-        if (v > tamanho()) {
-            for (int i = 0; i < tamanho(); i++) {
-                removerFinal();
-            }
-        } else {
-            for (int i = 0; i < v; i++) {
-                removerFinal();
-            }
+        for (int i = 0; i < v; i++) {
+            removerFinal();
         }
     }
 
-    //exercicio 2 
+    //2. Crie um método que remove o segundo elemento da lista. Se a lista tiver tamanho <= 1, seu método não deve fazer nada. 
     void removerSegundoElemento(){
         if (!vazia()) {
-            if (tamanho() > 1) {
-                No *segundo = cabeca->prox;
-                No *aux = segundo->prox;
-                delete(segundo);
-            } 
-            n--;
+            if (tamanho() == 2) {
+                removerFinal();
+            } else if (tamanho() > 2){
+                No *aux = cabeca -> prox;
+                cabeca -> prox = aux -> prox;
+                delete(aux);
+                n--;
+            }
         }
-
     }
 
-    //exercicio 3
+    //3. Crie um método que seja capaz de inserir no final da lista o tamanho atual da lista.
     void inserirTamanhoFinal() {
-        int v = tamanho();
-        inserirFinal(v);
+        inserirFinal(tamanho());
     }
 
-    //exercico 4
+    //4. Crie um método que receba um número N e insira na lista todos os números de 1 até N.
     void inserirNCrescente(int v) {
         int aux = 1;
         for (int i = 0; i < v; i++){
@@ -149,15 +142,18 @@ struct Lista {
         }
     }
 
-    //exercicio 5 
+    //5.Crie um método que insere um elemento sempre na penúltima posição da lista. Se a lista tiver tamanho <= 1, seu método não deve fazer nada. 
    void inserirPenultimo(int v) {
-        No *novo = new No();
-        novo->valor = v;
         if (tamanho() > 1) {
-            No *aux = cauda;
-            cauda = novo;
-            cauda -> prox = aux;
-        } 
+            No *penultimo = cabeca;
+            while(penultimo->prox !=cauda){
+                penultimo = penultimo -> prox;
+            }
+            No *novo = new No();
+            novo -> valor = v;
+            novo -> prox = cauda;
+            penultimo -> prox = novo;
+        }
         n++;
     }
         
@@ -178,23 +174,22 @@ int main() {
 
     l.imprimir();
     
-    printf("Exercício 1\n"); //ok
+    printf("Exercício 1\n");
     l.reduzirLista(3);
     l.imprimir();
-    printf("Exercício 2\n"); //erro
-    //l.removerSegundoElemento();
+    printf("Exercício 2\n"); 
+    l.removerSegundoElemento();
     l.imprimir();
-    printf("Exercício 3\n"); //ok
+    printf("Exercício 3\n"); 
     l.inserirTamanhoFinal();
     l.imprimir();
-    printf("Exercício 4\n"); //ok
+    printf("Exercício 4\n"); 
     l.inserirNCrescente(12);
     l.imprimir();
-    printf("Exercício 5\n"); //erro
+    printf("Exercício 5\n"); 
     l.inserirPenultimo(20);
     l.imprimir();
     
  
     return 0;
 }
-
