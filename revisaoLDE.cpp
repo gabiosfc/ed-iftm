@@ -1,6 +1,9 @@
 // Online C++ compiler to run C++ program online
 #include<stdio.h>
 #include <time.h>
+#include <unistd.h>
+
+using namespace std;
 
 struct No {
     int valor;
@@ -22,12 +25,18 @@ struct Lista {
     bool vazia() {
         return (cabeca == NULL);
     }
+    
+    int tamanho() { 
+        return n;
+    }
 
     void inserirInicio(int v) { 
+        time_t horaAtual = time(NULL);
         No *novo = new No();
         novo->valor = v;
+        novo->timestamp = horaAtual;
+        novo->prox = NULL;
         if (vazia()) {
-            novo->prox = NULL;
             cabeca = novo;
             cauda = novo;
         } else {
@@ -38,8 +47,10 @@ struct Lista {
     }
 
     void inserirFinal(int v) {
+        time_t horaAtual = time(NULL);
         No *novo = new No();
         novo->valor = v;
+        novo->timestamp = horaAtual;
         if (vazia()) {
             novo->prox = NULL;
             cabeca = novo;
@@ -56,16 +67,16 @@ struct Lista {
 
     void imprimir() {
         limpar();
+
         No *aux = cabeca;
         while (aux != NULL) {
             printf("%d\n", aux->valor);
+        
             aux = aux->prox;
         }
     }
 
-    int tamanho() { 
-        return n;
-    }
+    
 
     void removerInicio() { 
         if (!vazia()) {
@@ -103,102 +114,7 @@ struct Lista {
         }
     }
 
-    void removerN(int x) {
-        for (int i = 0; i < x; i++) {
-            removerFinal();
-        }
-    }
-
-    void removerSegundo() {
-        if (tamanho() == 2) {
-            removerFinal();
-        } else if (tamanho() > 2) {
-            No *aux = cabeca->prox;
-            cabeca->prox = aux->prox;
-            delete(aux);
-            n--;
-        }
-    }
-
-    void inserirTamanho() {
-        inserirFinal(tamanho());
-    }
-
-    void inserirN(int x) {
-        for (int i = 1; i <= x; i++) {
-            inserirFinal(i);
-        }
-    }
-
-    void inserirPenultima(int x) {
-        if (tamanho() > 1) {
-            No *penultimo = cabeca;
-            while (penultimo->prox != cauda) {
-                penultimo = penultimo->prox;
-            }
-            No *novo = new No();
-            novo->valor = x;
-            novo->prox = cauda;
-            penultimo->prox = novo;
-        }
-    }
     
-    bool encontrarElemento(int x) {
-        No *aux = cabeca;
-        while (aux != NULL) {
-            if(aux -> valor == x) {
-                return true;
-            }
-            aux = aux->prox;
-        }
-        return false;
-    }
-    
-    void removerOcorrencia(int x){
-        while (!vazia() && cabeca -> valor == x) {
-            removerInicio();
-        }  
-        while (!vazia() && cauda -> valor == x){
-            removerFinal();
-        } 
-        No *aux = cabeca;
-        No *anterior = aux;
-        while (!vazia() && aux != NULL) {
-            if(aux -> valor == x) {
-                No *aux2 = aux;
-                anterior -> prox = aux -> prox;
-                anterior = anterior;
-                aux = aux->prox;
-                delete(aux2);
-                n--;
-            } else {
-                anterior = aux;
-                aux = aux->prox;
-            }
-        }
-    }
-    
-    void inserirElementoInexistente(int x){
-        if(encontrarElemento(x) == false){
-            inserirFinal(x);
-        }
-    }
-    
-    void timestamp() {
-        struct tm *p;
-        time_t seconds;
-    
-        time(&seconds);
-        p = localtime(&seconds);
-
-        printf("\nData: %d/%d/%d\n", p->tm_mday, p->tm_mon + 1, p->tm_year + 1900);
-        printf("Hora: %d:%d:%d\n", p->tm_hour, p->tm_min, p->tm_sec);
-        
-        /*time_t mytime;
-        mytime = time(NULL);
-        printf(ctime(&mytime));*/
-
-    }
     
     void limpar(){
         time_t horaAtual = time(NULL);
@@ -206,6 +122,7 @@ struct Lista {
             removerInicio();
         }
     }
+    
 
 };
                     
@@ -217,6 +134,7 @@ int main() {
     l.inserirFinal(5);
     l.inserirFinal(10);
     l.inserirFinal(5);
+    sleep(3);
     l.inserirFinal(6);
     l.inserirFinal(8);
     l.inserirFinal(5);
@@ -230,8 +148,7 @@ int main() {
 
     
     printf("\nTamanho da lista: %d\n", l.tamanho());
-    
-    l.timestamp();
+
 
     return 0;
 }
