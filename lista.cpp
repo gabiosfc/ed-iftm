@@ -1,42 +1,28 @@
-// Online C++ compiler to run C++ program online
 #include<stdio.h>
-#include <time.h>
-#include <unistd.h>
-
-using namespace std;
 
 struct No {
     int valor;
-    time_t timestamp;
     No *prox;
 };
 
 struct Lista {
     No *cabeca, *cauda;
     int n;
-    int ttl;
 
-    Lista(int _ttl) {
+    Lista() {
         cabeca = cauda = NULL;
         n = 0;
-        ttl = _ttl;
     }
 
     bool vazia() {
         return (cabeca == NULL);
     }
-    
-    int tamanho() { 
-        return n;
-    }
 
     void inserirInicio(int v) { 
-        time_t horaAtual = time(NULL);
         No *novo = new No();
         novo->valor = v;
-        novo->timestamp = horaAtual;
-        novo->prox = NULL;
         if (vazia()) {
+            novo->prox = NULL;
             cabeca = novo;
             cauda = novo;
         } else {
@@ -47,10 +33,8 @@ struct Lista {
     }
 
     void inserirFinal(int v) {
-        time_t horaAtual = time(NULL);
         No *novo = new No();
         novo->valor = v;
-        novo->timestamp = horaAtual;
         if (vazia()) {
             novo->prox = NULL;
             cabeca = novo;
@@ -62,21 +46,19 @@ struct Lista {
         }
         n++;
     }
-    
-    
 
     void imprimir() {
-        limpar();
-
         No *aux = cabeca;
         while (aux != NULL) {
             printf("%d\n", aux->valor);
-        
             aux = aux->prox;
         }
     }
 
-    
+
+    int tamanho() { // O(1)
+        return n;
+    }
 
     void removerInicio() { 
         if (!vazia()) {
@@ -114,39 +96,88 @@ struct Lista {
         }
     }
 
-    
-    
-    void limpar(){
-        time_t horaAtual = time(NULL);
-        while(!vazia() && (horaAtual - cabeca -> timestamp) > ttl){
-            removerInicio();
+    //exercicio 1
+    void reduzirLista(int v) {
+        if (v < tamanho()) {
+            for (int i = 0; i < tamanho(); i++) {
+                removerFinal();
+            }
+        } else {
+            for (int i = 0; i < v; i++) {
+                removerFinal();
+            }
         }
     }
-    
+
+    //exercicio 2 
+    void removerSegundoElemento(){
+        if (!vazia()) {
+            if (tamanho() >= 1) {
+                No *aux = cabeca->prox;
+                No *aux2 = aux->prox;
+                delete(aux);
+            } 
+            n--;
+        }
+    }
+
+
+    //exercicio 3
+    void inserirTamanhoFinal() {
+        int v = tamanho();
+        inserirFinal(v);
+    }
+
+    //exercico 4
+    void inserirNCrescente(int v) {
+        int aux = 1;
+        for (int i = 0; i < v; i++){
+            inserirFinal(aux);
+            aux++;
+        }
+    }
+
+    //exercicio 5 
+   void inserirPenultimo(int v) {
+        No *novo = new No();
+        novo->valor = v;
+        if (tamanho() >= 1) {
+            No *aux = cauda;
+            cauda = novo;
+            cauda -> prox = aux;
+        }
+        n++;
+    }
 
 };
-                    
+    
 
 int main() {
 
-
-    Lista l(1);
-    l.inserirFinal(5);
-    l.inserirFinal(10);
-    l.inserirFinal(5);
-    sleep(3);
-    l.inserirFinal(6);
+    Lista l;
+    l.inserirInicio(5);
+    l.inserirInicio(7);
+    l.inserirInicio(10);
     l.inserirFinal(8);
-    l.inserirFinal(5);
-    l.inserirFinal(7);
-    l.inserirFinal(5);
-    l.inserirFinal(5);
-
-
-
+    l.inserirFinal(2);
+    l.inserirFinal(3);
+    l.removerInicio();
+    l.removerInicio();
+    l.removerInicio();
     l.imprimir();
 
-    
+    l.reduzirLista(30);
+    l.imprimir();
+    l.removerSegundoElemento();
+    l.imprimir();
+    l.inserirTamanhoFinal();
+    l.imprimir();
+    l.inserirNCrescente(27);
+    l.imprimir();
+    l.inserirPenultimo(20);
+    l.imprimir();
+
+
     printf("\nTamanho da lista: %d\n", l.tamanho());
 
 
